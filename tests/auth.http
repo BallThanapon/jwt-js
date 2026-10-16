@@ -1,0 +1,53 @@
+@baseUrl = http://localhost:3000
+@token = PASTE_JWT_TOKEN_HERE
+
+### Health Check
+GET {{baseUrl}}/api/health
+
+### Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "TestPassword123"
+}
+
+### Login with email
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "identifier": "test@example.com",
+  "password": "TestPassword123"
+}
+
+### Login with username
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "identifier": "testuser",
+  "password": "TestPassword123"
+}
+
+### Current user (Protected)
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer {{token}}
+
+### All users (Protected demo endpoint; add admin authorization in production)
+GET {{baseUrl}}/api/users
+Authorization: Bearer {{token}}
+
+### Expected 401: no token
+GET {{baseUrl}}/api/users/me
+
+### Expected 401: wrong password
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "identifier": "testuser",
+  "password": "WrongPassword123"
+}
